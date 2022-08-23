@@ -1,0 +1,91 @@
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:fragment="md_create_movie">
+    <div class="modal fade show" id="md_add_movie" tabindex="-1" aria-modal="true" style="padding-right: 19px;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add new movie</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body p-3">
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Title</label>
+                                    <input class="form-control form-white" placeholder="Enter name" type="text" id="titleCre" name="titleCre">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Premiere date</label>
+                                    <input class="form-control form-white" placeholder="Enter name" type="date" id="premiereDateCre" name="premiereDateCre">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Show duration</label>
+                                    <input class="form-control form-white" placeholder="Enter name" type="number" id="showDurationCre" name="showDurationCre">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Upload picture</label>
+                                    <input class="form-control form-white" placeholder="Upload" type="file">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Director</label>
+                                    <input class="form-control form-white" placeholder="Enter name" type="text" id="directorCre" name="directorCre">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Actor</label>
+                                    <input class="form-control form-white" placeholder="Enter name" type="text" id="actorCre" name="actorCre">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Language</label>
+                                    <input class="form-control form-white" placeholder="Enter name" type="text" id="languageCre" name="languageCre">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="control-label">Description</label>
+                                    <input class="form-control form-white" placeholder="Enter name" type="text" id="descriptionCre" name="descriptionCre">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="control-label">Type of movie</label>
+                            <div class="row" id="categoryContainer">
+
+                            </div>
+
+                        </div>
+
+
+                    </form>
+                    <div class="text-right pt-2">
+                        <button type="button" class="btn btn-light " data-dismiss="modal">Close</button>
+                        <button type="button" id="btn_create_movie" class="btn btn-primary ml-1 save-category" data-dismiss="modal">Save</button>
+                    </div>
+
+                </div> <!-- end modal-body-->
+            </div> <!-- end modal-content-->
+        </div> <!-- end modal dialog-->
+    </div>
+</th:block>
