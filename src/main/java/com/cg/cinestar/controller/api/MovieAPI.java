@@ -2,6 +2,7 @@ package com.cg.cinestar.controller.api;
 
 import com.cg.cinestar.exception.DataInputException;
 import com.cg.cinestar.model.Category;
+import com.cg.cinestar.model.JsonToMapConverter;
 import com.cg.cinestar.model.dto.MovieDTO;
 import com.cg.cinestar.repository.MovieRepository;
 import com.cg.cinestar.service.category.ICategoryService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -23,10 +25,13 @@ import java.util.Set;
 public class MovieAPI {
 
     @Autowired
-    IMovieService movieService;
+    private IMovieService movieService;
 
     @Autowired
-    ICategoryService categoryService;
+    private ICategoryService categoryService;
+
+    @Autowired
+    private JsonToMapConverter jsonToMapConverter;
 
     @GetMapping("/all")
     public ResponseEntity<?> findAll(){
@@ -49,20 +54,22 @@ public class MovieAPI {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody MovieDTO movieDTO){
-        Set<Category> categories = movieDTO.getCategories();
-        movieDTO.setId("0");
+//        Set<Category> categories = movieDTO.getCategories();
+//        movieDTO.setId("0");
 
         try {
+            String categoryDetail = jsonToMapConverter.convertToEntityAttribute(movieDTO.getCategoryDetail());
             Movie movie = movieDTO.toMovie();
-            movie.setCategories(categories);
+            movie.setId(null);
+            movie.setCategoryDetail(categoryDetail);
             Movie movieCreated = movieService.save(movie);
-            return new ResponseEntity<>(movieCreated.toMovieDTO(), HttpStatus.CREATED);
+            Map<String, Object> categories = jsonToMapConverter.convertToDatabaseColumn(movieCreated.getCategoryDetail());
+            return new ResponseEntity<>(movieCreated.toMovieDTO(categories), HttpStatus.CREATED);
 
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             throw new DataInputException("Invalid apartment creation information, please check the information again!");
         }
-
     }
 
 

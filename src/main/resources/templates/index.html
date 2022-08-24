@@ -215,13 +215,15 @@
             url: page.urls.getAllMovies
         })
             .done((data) => {
+                console.log(data);
+
                 $('#tbMovies tbody').html('');
 
                 $.each(data, (i, item) => {
                     // console.log(item);
-                    let str = App.drawRowMovie(item.id, item.title, item.premiereDate, item.showDuration, item.director, item.actor, item.language, item.description);
+                    let str = App.drawRowMovie(item.id, item.title, item.premiereDate, item.showDuration, item.categoryDetail, item.director, item.actor, item.language, item.description);
                     $('#tbMovies tbody').append(str);
-                    loadCategoriesByMovie(item.id);
+                    // loadCategoriesByMovie(item.id);
 
                 })
 

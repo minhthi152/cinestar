@@ -91,7 +91,14 @@ class App {
         }
     }
 
-    static drawRowMovie(id, title, premiereDate, showDuration, director, actor, language, description) {
+    static drawRowMovie(id, title, premiereDate, showDuration, categoryDetail, director, actor, language, description) {
+
+        let cate = ``;
+
+        $.each(categoryDetail, (key, value) => {
+            cate += `<span class="badge badge-warning">${value}</span>`;
+        })
+
         let str = `
             <tr id="tr_${id}" >
                 <td>
@@ -107,8 +114,9 @@ class App {
                     ${showDuration}
                 </td>
                 <td id="tdCategory_${id}">
-                    <span class="badge badge-secondary">Low</span>
-                    <span class="badge badge-success">Open</span>
+                    ${cate}
+<!--                    <span class="badge badge-secondary">Low</span>-->
+<!--                    <span class="badge badge-success">Open</span>-->
                 </td>
                 <td>
                     ${director}

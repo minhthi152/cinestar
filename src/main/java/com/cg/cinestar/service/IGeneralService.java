@@ -1,8 +1,5 @@
 package com.cg.cinestar.service;
 
-
-import com.cg.cinestar.model.Category;
-
 import java.util.List;
 import java.util.Optional;
 
