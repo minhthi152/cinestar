@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -48,6 +49,10 @@ public class Movie extends BaseEntity {
     private String language;
 
     private String description;
+
+
+    @OneToMany(mappedBy = "movie")
+    private List<FileMedia> movieMedia;
 
     public MovieDTO toMovieDTO() {
         return new MovieDTO()

@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- App favicon -->
     <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <link href="/assets/libs/dropzone/dropzone.min.css" rel="stylesheet" type="text/css">
 
     <!-- third party css -->
     <link href="/assets/libs/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css">
@@ -19,6 +20,7 @@
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/app.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/upload-movie-img.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -77,6 +79,7 @@
                                 <tr>
                                     <th class="font-weight-medium">ID</th>
                                     <th class="font-weight-medium">Title</th>
+                                    <th class="font-weight-medium">Picture</th>
                                     <th class="font-weight-medium">Premiere Date</th>
                                     <th class="font-weight-medium">Show duration</th>
                                     <th class="font-weight-medium">Category</th>
@@ -182,13 +185,12 @@
 <script src="/assets/libs/datatables/dataTables.bootstrap4.js"></script>
 <script src="/assets/libs/datatables/dataTables.responsive.min.js"></script>
 <script src="/assets/libs/datatables/responsive.bootstrap4.min.js"></script>
-<!-- third party js ends -->
-
-<!-- init js -->
+<!-- Plugins js -->
+<script src="/assets/libs/dropzone/dropzone.min.js"></script>
 
 <!-- App js -->
 <script src="/assets/js/app.min.js"></script>
-<script src="/assets/js/app.js"></script>
+<script src="/assets/js/appp.js"></script>
 
 
 <script>
@@ -219,35 +221,21 @@
 
                 $.each(data, (i, item) => {
                     // console.log(item);
-                    let str = App.drawRowMovie(item.id, item.title, item.premiereDate, item.showDuration, item.director, item.actor, item.language, item.description);
+                    let str = App.drawRowMovie(item.id, item.title,item.fileUrl, item.premiereDate, item.showDuration, item.director, item.actor, item.language, item.description);
                     $('#tbMovies tbody').append(str);
-                    loadCategoriesByMovie(item.id);
+
+                    $('#tdCategory_' + item.id).html('')
+
+                    $.each(item.categories, (i, category) => {
+                        let str = `<span class="badge badge-warning">${category.name}</span>`;
+                        $('#tdCategory_' + item.id).append(str);
+                    })
 
                 })
 
             })
     }
 
-    function loadCategoriesByMovie(id) {
-        $.ajax({
-            headers: {
-                "Content-Type": "Application/json",
-                "Accept": "Application/json"
-            },
-            type: "GET",
-            url: page.urls.getAllCategoriesByMovieId + id
-        })
-            .done((data) => {
-                $('#tdCategory_' + id).html('')
-
-                $.each(data, (i, item) => {
-                    // console.log(item);
-                    let str = `<span class="badge badge-warning">${item.name}</span>`;
-                    $('#tdCategory_' + id).append(str);
-                })
-
-            })
-    }
 
     function getAllCategories(){
         $.ajax({
@@ -335,6 +323,7 @@
         initializeControlEvent();
         getAllCategories();
     });
+
 </script>
 
 </body>

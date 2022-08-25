@@ -2,6 +2,7 @@ package com.cg.cinestar.controller.api;
 
 import com.cg.cinestar.exception.DataInputException;
 import com.cg.cinestar.model.Category;
+import com.cg.cinestar.model.dto.IMovieDTO;
 import com.cg.cinestar.model.dto.MovieDTO;
 import com.cg.cinestar.repository.MovieRepository;
 import com.cg.cinestar.service.category.ICategoryService;
@@ -28,21 +29,15 @@ public class MovieAPI {
     @Autowired
     ICategoryService categoryService;
 
-    @GetMapping("/all")
-    public ResponseEntity<?> findAll(){
-        List<Movie> movies = movieService.findAll();
-        if (movies.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(movies, HttpStatus.OK);
-    }
-
 
     @GetMapping
-    public ResponseEntity<List<?>> findAllMovies(){
+    public ResponseEntity<?> findAllMovies(){
         List<MovieDTO> movies = movieService.findAllIMovieDTOByDeletedIsFalse();
         if (movies.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        for (MovieDTO movieDTO: movies) {
+            movieDTO.setCategories(categoryService.findAllCategoriesByFilmId(movieDTO.getId()));
         }
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }

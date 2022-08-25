@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -21,7 +22,7 @@ public class CategoryAPI {
     ICategoryService categoryService;
 
     @GetMapping("")
-    public ResponseEntity<List<?>> getAllCategories(){
+    public ResponseEntity<?> getAllCategories(){
         List<Category> categories = categoryService.findAll();
         if (categories.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -30,8 +31,8 @@ public class CategoryAPI {
     }
 
     @GetMapping("/movie/{id}")
-    public ResponseEntity<List<?>> getAllCategoriesByFilmId(@PathVariable String id){
-        List<Category> categories = categoryService.findAllCategoriesByFilmId(id);
+    public ResponseEntity<?> getAllCategoriesByFilmId(@PathVariable String id){
+        Set<Category> categories = categoryService.findAllCategoriesByFilmId(id);
         if (categories.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

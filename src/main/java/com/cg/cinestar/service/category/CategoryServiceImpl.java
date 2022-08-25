@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 @Service
 public class CategoryServiceImpl implements ICategoryService{
 
@@ -42,7 +44,7 @@ public class CategoryServiceImpl implements ICategoryService{
     }
 
     @Override
-    public List<Category> findAllCategoriesByFilmId(String id) {
+    public Set<Category> findAllCategoriesByFilmId(String id) {
         return movieRepository.findAllCategoriesByFilmId(id);
     }
 }

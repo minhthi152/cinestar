@@ -1,7 +1,7 @@
 package com.cg.cinestar.service.movie;
 
-import com.cg.cinestar.model.Category;
 import com.cg.cinestar.model.Movie;
+import com.cg.cinestar.model.dto.IMovieDTO;
 import com.cg.cinestar.model.dto.MovieDTO;
 import com.cg.cinestar.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,10 @@ public class MovieServiceImpl implements IMovieService{
 
     }
 
-
+//    @Override
+//    public List<IMovieDTO> findAllIMovieDTOByDeletedIsFalse() {
+//        return movieRepository.findAllIMovieDTOByDeletedIsFalse();
+//    }
     @Override
     public List<MovieDTO> findAllIMovieDTOByDeletedIsFalse() {
         return movieRepository.findAllIMovieDTOByDeletedIsFalse();

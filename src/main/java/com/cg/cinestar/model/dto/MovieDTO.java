@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 @Getter
@@ -17,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class MovieDTO {
+public class MovieDTO implements Serializable {
     private String id;
     private String title;
 
@@ -60,4 +61,20 @@ public class MovieDTO {
         this.language = language;
         this.description = description;
     }
+
+    public MovieDTO(String id, String title, String premiereDate, int showDuration, String director, String actor, String language, String description, String fileFolder, String fileName, String fileType, String fileUrl) {
+        this.id = id;
+        this.title = title;
+        this.premiereDate = premiereDate;
+        this.showDuration = showDuration;
+        this.director = director;
+        this.actor = actor;
+        this.language = language;
+        this.description = description;
+        this.fileName = fileName;
+        this.fileFolder = fileFolder;
+        this.fileUrl = fileUrl;
+        this.fileType = fileType;
+    }
+
 }

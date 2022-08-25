@@ -91,7 +91,7 @@ class App {
         }
     }
 
-    static drawRowMovie(id, title, premiereDate, showDuration, director, actor, language, description) {
+    static drawRowMovie(id, title, image, premiereDate, showDuration, director, actor, language, description) {
         let str = `
             <tr id="tr_${id}" >
                 <td>
@@ -99,6 +99,9 @@ class App {
                 </td>
                 <td>
                     ${title}
+                </td>
+                <td>
+                    <img src="${image}" class="rounded mx-auto d-block img-thumbnail">
                 </td>
                 <td>
                     ${premiereDate}
@@ -129,7 +132,7 @@ class App {
 
     static drawCheckboxCategory(id, category){
         let str = `
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="custom-control custom-checkbox custom-checkbox-info mb-3">
                     <input type="checkbox" class="custom-control-input category" id="category_${id}" name="${category}">
                     <label class="custom-control-label" for="category_${id}">${category}</label>
