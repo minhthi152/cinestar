@@ -70,6 +70,6 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
 
 
     @Query("SELECT m.categories FROM Movie m WHERE m.id = :id")
-    Set<Category> findAllCategoriesByFilmId(String id);
+    List<Category> findAllCategoriesByFilmId(String id);
 
 }

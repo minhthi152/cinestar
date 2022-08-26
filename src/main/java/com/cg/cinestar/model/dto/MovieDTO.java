@@ -1,6 +1,7 @@
 package com.cg.cinestar.model.dto;
 
 import com.cg.cinestar.model.Category;
+import com.cg.cinestar.model.FileMedia;
 import com.cg.cinestar.model.Movie;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 @Getter
 @Setter
@@ -25,7 +27,7 @@ public class MovieDTO implements Serializable {
     private String premiereDate;
     private int showDuration;
 
-    private Set<Category> categories;
+    private CategoryDTO categories;
     private String director;
     private String actor;
     private String language;
@@ -49,6 +51,16 @@ public class MovieDTO implements Serializable {
                 .setActor(actor)
                 .setLanguage(language)
                 .setDescription(description);
+    }
+
+    public FileMedia toFileMedia() {
+        return new FileMedia()
+                .setId(fileProductId)
+                .setFileName(fileName)
+                .setFileFolder(fileFolder)
+                .setFileUrl(fileUrl)
+                .setCloudId(cloudId)
+                .setFileType(fileType);
     }
 
     public MovieDTO(String id, String title, String premiereDate, int showDuration, String director, String actor, String language, String description) {

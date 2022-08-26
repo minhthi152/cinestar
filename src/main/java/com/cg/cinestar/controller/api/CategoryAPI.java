@@ -32,7 +32,7 @@ public class CategoryAPI {
 
     @GetMapping("/movie/{id}")
     public ResponseEntity<?> getAllCategoriesByFilmId(@PathVariable String id){
-        Set<Category> categories = categoryService.findAllCategoriesByFilmId(id);
+        List<Category> categories = categoryService.findAllCategoriesByFilmId(id);
         if (categories.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

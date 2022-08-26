@@ -40,7 +40,7 @@ public class Movie extends BaseEntity {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories;
+    private List<Category> categories;
 
     private String director;
 
@@ -60,6 +60,7 @@ public class Movie extends BaseEntity {
                 .setTitle(title)
                 .setPremiereDate(premiereDate)
                 .setShowDuration(showDuration)
+//                .setCategories(categories.toC)
                 .setDirector(director)
                 .setActor(actor)
                 .setLanguage(language)

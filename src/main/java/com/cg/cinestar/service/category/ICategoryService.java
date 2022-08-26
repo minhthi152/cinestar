@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Set;
 
 public interface ICategoryService extends IGeneralService<Category> {
-    Set<Category> findAllCategoriesByFilmId(String id);
+    List<Category> findAllCategoriesByFilmId(String id);
 }

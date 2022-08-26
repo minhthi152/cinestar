@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements ICategoryService{
     }
 
     @Override
-    public Set<Category> findAllCategoriesByFilmId(String id) {
+    public List<Category> findAllCategoriesByFilmId(String id) {
         return movieRepository.findAllCategoriesByFilmId(id);
     }
 }

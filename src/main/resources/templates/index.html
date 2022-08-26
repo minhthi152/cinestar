@@ -205,6 +205,7 @@
         commands: {},
     }
 
+
     let categories = [];
 
     function loadMovies() {
@@ -238,55 +239,95 @@
 
 
     function getAllCategories(){
-        $.ajax({
-            "headers": {
-                "accept": "application/json",
-                "content-type": "application/json"
-            },
-            "type": "GET",
-            "url": page.urls.getAllCategories,
-        })
-            .done((data) => {
-                $('#categoryContainer').html("");
-                $.each(data, (i, item) => {
-                    let str = App.drawCheckboxCategory(item.id, item.name);
-                    $('#categoryContainer').append(str);
+        return $.ajax({
+                "headers": {
+                    "accept": "application/json",
+                    "content-type": "application/json"
+                },
+                "type": "GET",
+                "url": page.urls.getAllCategories,
+            })
+                .done((data) => {
+                    $('#categoryContainer').html("");
+                    $.each(data, (i, item) => {
+                        let str = App.drawCheckboxCategory(item.id, item.name);
+                        $('#categoryContainer').append(str);
+                    })
                 })
-            })
-            .fail((jqXHR) => {
-                alert("fail")
-                console.log(jqXHR);
-            })
+                .fail((jqXHR) => {
+                    alert("fail")
+                    console.log(jqXHR);
+                })
 
     }
 
 
     $('#btn_create_movie').on('click', () => {
-        let movie = new Movie();
-        movie.title = $('#titleCre').val();
-        movie.premiereDate = $('#premiereDateCre').val();
-        movie.showDuration = $('#showDurationCre').val();
-        movie.director = $('#directorCre').val();
-        movie.actor = $('#actorCre').val();
-        movie.language = $('#languageCre').val();
-        movie.description = $('#descriptionCre').val();
-        movie.categories = categories;
-        console.log(movie);
+        let formData = new FormData();
+        formData.append("title", $('#titleCre').val().toString());
+        formData.append("premiereDate", $('#premiereDateCre').val().toString());
+        formData.append("showDuration", $('#showDurationCre').val().toString());
+        formData.append("director", $('#directorCre').val().toString());
+        formData.append("actor", $('#actorCre').val().toString());
+        formData.append("language", $('#languageCre').val().toString());
+        formData.append("description", $('#descriptionCre').val().toString());
+
+
+        // formData.append("categories", JSON.stringify(categories));
+
+        for (let i = 0; i < categories.length; i++) {
+            formData.append("categories", JSON.stringify(categories[i]));
+            // formData.append("id[" + i + "]", categories[i].id);
+            // formData.append("name[" + i + "]", categories[i].name);
+        }
+        //
+        // console.log(categories);
+        // categories.forEach( item => {
+        //     console.log(item);
+        //     formData.append("categories", JSON.stringify(item));
+        // })
+
+
+        formData.append("file", $("#imageCre")[0].files[0]);
+
+        // let movie = new Movie();
+        // movie.title = $('#titleCre').val();
+        // movie.premiereDate = $('#premiereDateCre').val();
+        // movie.showDuration = $('#showDurationCre').val();
+        // movie.director = $('#directorCre').val();
+        // movie.actor = $('#actorCre').val();
+        // movie.language = $('#languageCre').val();
+        // movie.description = $('#descriptionCre').val();
+        // movie.categories = categories;
+        // console.log(movie);
+
 
         $.ajax({
-            "headers": {
-                "accept": "application/json",
-                "content-type": "application/json"
-            },
-            "type": "POST",
-            "url": page.urls.getAllMovies + "/create",
-            "data": JSON.stringify(movie)
+            // "headers": {
+            //     "accept": "application/json",
+            //     "content-type": "application/json"
+            // },
+            // "type": "POST",
+            // "url": page.urls.getAllMovies + "/create",
+            // "data": JSON.stringify(movie)
+
+            type: "POST",
+            contentType: false,
+            cache: false,
+            processData: false,
+            url: page.urls.getAllMovies + "/create",
+            data: formData
         })
             .done((data) => {
-                console.log(data);
-                let str = App.drawRowMovie(data.id, data.title, data.premiereDate, data.showDuration, data.director, data.actor, data.language, data.description);
+                // console.log(data);
+                let str = App.drawRowMovie(data.id, data.title,data.fileUrl, data.premiereDate, data.showDuration, data.director, data.actor, data.language, data.description);
                 $('#tbMovies tbody').append(str);
-                loadCategoriesByMovie(data.id);
+                $('#tdCategory_' + data.id).html('')
+
+                $.each(data.categories, (i, category) => {
+                    let str = `<span class="badge badge-warning">${category.name}</span>`;
+                    $('#tdCategory_' + data.id).append(str);
+                })
             })
             .fail((jqXHR) => {
                 alert('fail');
@@ -294,7 +335,7 @@
     })
 
     $('#btn_open_create_movie').on('click', () => {
-        addCategories();
+        categories = [];
     })
 
     function addCategories(){
@@ -316,12 +357,17 @@
 
     let initializeControlEvent = () => {
 
+
     }
 
     $(() => {
         loadMovies();
         initializeControlEvent();
-        getAllCategories();
+        getAllCategories().then(() =>{
+            addCategories();
+        });
+
+
     });
 
 </script>

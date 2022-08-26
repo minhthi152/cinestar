@@ -13,4 +13,5 @@ public interface IMovieService extends IGeneralService<Movie> {
 //    List<IMovieDTO> findAllIMovieDTOByDeletedIsFalse();
 
     List<MovieDTO> findAllIMovieDTOByDeletedIsFalse();
+    Movie create(MovieDTO movieDTO);
 }
