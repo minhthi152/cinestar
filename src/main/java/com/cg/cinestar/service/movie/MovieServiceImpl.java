@@ -1,8 +1,10 @@
 package com.cg.cinestar.service.movie;
 
 import com.cg.cinestar.exception.DataInputException;
+import com.cg.cinestar.model.Category;
 import com.cg.cinestar.model.FileMedia;
 import com.cg.cinestar.model.Movie;
+import com.cg.cinestar.model.dto.CategoryDTO;
 import com.cg.cinestar.model.dto.IMovieDTO;
 import com.cg.cinestar.model.dto.MovieDTO;
 import com.cg.cinestar.model.enums.FileType;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -76,7 +79,16 @@ public class MovieServiceImpl implements IMovieService{
 
         movieDTO.setFileType(fileType);
 
-        Movie movie = movieRepository.save(movieDTO.toMovie());
+        List<Category> categories = new ArrayList<>();
+
+        for (CategoryDTO categoryDTO : movieDTO.getCategories()) {
+            categories.add(categoryDTO.toCategory());
+        }
+
+        Movie movie = movieDTO.toMovie();
+        movie.setCategories(categories);
+
+        Movie newMovie = movieRepository.save(movie);
 
         FileMedia movieMedia = fileMediaRepository.save(movieDTO.toFileMedia());
 
@@ -88,7 +100,7 @@ public class MovieServiceImpl implements IMovieService{
             uploadAndSaveProductVideo(movieDTO, movie, movieMedia);
         }
 
-        return movie;
+        return newMovie;
     }
 
     private void uploadAndSaveProductImage(MovieDTO movieDTO, Movie movie, FileMedia movieMedia) {

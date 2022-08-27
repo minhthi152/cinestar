@@ -27,7 +27,7 @@ public class MovieDTO implements Serializable {
     private String premiereDate;
     private int showDuration;
 
-    private CategoryDTO categories;
+    private List<CategoryDTO> categories;
     private String director;
     private String actor;
     private String language;
@@ -45,6 +45,7 @@ public class MovieDTO implements Serializable {
         return new Movie()
                 .setId(id)
                 .setTitle(title)
+//                .setCategories(category)
                 .setPremiereDate(premiereDate)
                 .setShowDuration(showDuration)
                 .setDirector(director)

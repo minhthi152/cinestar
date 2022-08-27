@@ -3,14 +3,14 @@ package com.cg.cinestar.controller.api;
 import com.cg.cinestar.exception.DataInputException;
 import com.cg.cinestar.model.Category;
 import com.cg.cinestar.model.FileMedia;
-import com.cg.cinestar.model.dto.IMovieDTO;
-import com.cg.cinestar.model.dto.MovieDTO;
-import com.cg.cinestar.model.dto.MovieTestDTO;
+import com.cg.cinestar.model.dto.*;
 import com.cg.cinestar.repository.FileMediaRepository;
 import com.cg.cinestar.repository.MovieRepository;
 import com.cg.cinestar.service.category.ICategoryService;
 import com.cg.cinestar.service.movie.IMovieService;
 import com.cg.cinestar.model.Movie;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -52,15 +52,15 @@ public class MovieAPI {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(MovieDTO movieDTO){
-//        List<Category> categories = movieDTO.getCategories();
-//        movieDTO.setId("0");
-
-        List<Category> categories = new ArrayList<>();
+    public ResponseEntity<?> create(@RequestParam ("client") String client,
+                                    @RequestParam(value = "files", required = false) MultipartFile files) throws JsonProcessingException {
 
         try {
-            Movie movie = movieDTO.toMovie();
-            movie.setCategories(categories);
+            ObjectMapper mapper = new ObjectMapper();
+            MovieCreateDTO movieCreateDTO = mapper.readValue(client, MovieCreateDTO.class);
+
+            MovieDTO movieDTO = movieCreateDTO.toMovieDTO();
+            movieDTO.setFile(files);
 
             Movie movieCreated = movieService.create(movieDTO);
             Optional<FileMedia> movieMedia = fileMediaRepository.findByMovie(movieCreated);
@@ -75,12 +75,21 @@ public class MovieAPI {
 
     }
 
-    @PostMapping("/create-test")
-    public ResponseEntity<?> create(MovieTestDTO movieDTO){
+    @PostMapping(value = "/create-test", produces = "application/json")
+    public ResponseEntity<?> createTest(@RequestParam ("client") String client,
+                                    @RequestParam(value = "files", required = false) MultipartFile files) throws JsonProcessingException {
 
-        System.out.println(movieDTO.getTitle());
+        List<Category> categories = new ArrayList<>();
 
-        return new ResponseEntity<>(movieDTO.getFile(), HttpStatus.CREATED);
+        ObjectMapper mapper = new ObjectMapper();
+        MovieCreateDTO movieCreateDTO = mapper.readValue(client, MovieCreateDTO.class);
+
+        MovieDTO movieDTO = movieCreateDTO.toMovieDTO();
+        movieDTO.setFile(files);
+
+        System.out.println(movieDTO.getCategories());
+
+        return new ResponseEntity<>(movieCreateDTO, HttpStatus.CREATED);
 
     }
 

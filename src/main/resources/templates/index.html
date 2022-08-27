@@ -258,59 +258,29 @@
                     alert("fail")
                     console.log(jqXHR);
                 })
-
     }
 
 
     $('#btn_create_movie').on('click', () => {
+
         let formData = new FormData();
-        formData.append("title", $('#titleCre').val().toString());
-        formData.append("premiereDate", $('#premiereDateCre').val().toString());
-        formData.append("showDuration", $('#showDurationCre').val().toString());
-        formData.append("director", $('#directorCre').val().toString());
-        formData.append("actor", $('#actorCre').val().toString());
-        formData.append("language", $('#languageCre').val().toString());
-        formData.append("description", $('#descriptionCre').val().toString());
 
-
-        // formData.append("categories", JSON.stringify(categories));
-
-        for (let i = 0; i < categories.length; i++) {
-            formData.append("categories", JSON.stringify(categories[i]));
-            // formData.append("id[" + i + "]", categories[i].id);
-            // formData.append("name[" + i + "]", categories[i].name);
+        let client = {
+            id: null,
+            title: $('#titleCre').val(),
+            categories: categories,
+            premiereDate: $('#premiereDateCre').val(),
+            showDuration: $('#showDurationCre').val(),
+            director: $('#directorCre').val(),
+            actor: $('#actorCre').val(),
+            language: $('#languageCre').val(),
+            description: $('#descriptionCre').val()
         }
-        //
-        // console.log(categories);
-        // categories.forEach( item => {
-        //     console.log(item);
-        //     formData.append("categories", JSON.stringify(item));
-        // })
 
-
-        formData.append("file", $("#imageCre")[0].files[0]);
-
-        // let movie = new Movie();
-        // movie.title = $('#titleCre').val();
-        // movie.premiereDate = $('#premiereDateCre').val();
-        // movie.showDuration = $('#showDurationCre').val();
-        // movie.director = $('#directorCre').val();
-        // movie.actor = $('#actorCre').val();
-        // movie.language = $('#languageCre').val();
-        // movie.description = $('#descriptionCre').val();
-        // movie.categories = categories;
-        // console.log(movie);
-
+        formData.append("client", JSON.stringify(client));
+        formData.append("files", $("#imageCre")[0].files[0]);
 
         $.ajax({
-            // "headers": {
-            //     "accept": "application/json",
-            //     "content-type": "application/json"
-            // },
-            // "type": "POST",
-            // "url": page.urls.getAllMovies + "/create",
-            // "data": JSON.stringify(movie)
-
             type: "POST",
             contentType: false,
             cache: false,
