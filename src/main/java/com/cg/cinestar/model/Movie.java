@@ -60,7 +60,7 @@ public class Movie extends BaseEntity {
                 .setTitle(title)
                 .setPremiereDate(premiereDate)
                 .setShowDuration(showDuration)
-//                .setCategories(categories.toC)
+//                .setCategories(categories)
                 .setDirector(director)
                 .setActor(actor)
                 .setLanguage(language)

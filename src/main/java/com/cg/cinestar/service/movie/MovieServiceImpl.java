@@ -1,6 +1,7 @@
 package com.cg.cinestar.service.movie;
 
 import com.cg.cinestar.exception.DataInputException;
+import com.cg.cinestar.model.Category;
 import com.cg.cinestar.model.FileMedia;
 import com.cg.cinestar.model.Movie;
 import com.cg.cinestar.model.dto.IMovieDTO;
@@ -10,11 +11,14 @@ import com.cg.cinestar.repository.FileMediaRepository;
 import com.cg.cinestar.repository.MovieRepository;
 import com.cg.cinestar.service.upload.IUploadService;
 import com.cg.cinestar.utils.UploadUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,6 +72,15 @@ public class MovieServiceImpl implements IMovieService{
     @Override
     public Movie create(MovieDTO movieDTO) {
 
+        String categories = movieDTO.getCategories();
+        ObjectMapper mapper = new ObjectMapper();
+        List<Category> categoryList;
+        try {
+            categoryList = Arrays.asList(mapper.readValue(categories, Category[].class));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
         String fileType = movieDTO.getFile().getContentType();
 
         assert fileType != null;
@@ -76,7 +89,7 @@ public class MovieServiceImpl implements IMovieService{
 
         movieDTO.setFileType(fileType);
 
-        Movie movie = movieRepository.save(movieDTO.toMovie());
+        Movie movie = movieRepository.save(movieDTO.toMovie().setCategories(categoryList));
 
         FileMedia movieMedia = fileMediaRepository.save(movieDTO.toFileMedia());
 

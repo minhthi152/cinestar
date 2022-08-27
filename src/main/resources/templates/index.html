@@ -219,21 +219,23 @@
         })
             .done((data) => {
                 $('#tbMovies tbody').html('');
+                console.log(data);
 
                 $.each(data, (i, item) => {
-                    // console.log(item);
+
                     let str = App.drawRowMovie(item.id, item.title,item.fileUrl, item.premiereDate, item.showDuration, item.director, item.actor, item.language, item.description);
                     $('#tbMovies tbody').append(str);
 
                     $('#tdCategory_' + item.id).html('')
 
-                    $.each(item.categories, (i, category) => {
-                        let str = `<span class="badge badge-warning">${category.name}</span>`;
+                    let strCategory = item.categories;
+                    let categoryList = strCategory.substring(1,strCategory.length-1).split(",");
+
+                    $.each(categoryList, (i, category) => {
+                        let str = `<span class="badge badge-warning">${category}</span>`;
                         $('#tdCategory_' + item.id).append(str);
                     })
-
                 })
-
             })
     }
 
@@ -261,7 +263,6 @@
 
     }
 
-
     $('#btn_create_movie').on('click', () => {
         let formData = new FormData();
         formData.append("title", $('#titleCre').val().toString());
@@ -271,24 +272,13 @@
         formData.append("actor", $('#actorCre').val().toString());
         formData.append("language", $('#languageCre').val().toString());
         formData.append("description", $('#descriptionCre').val().toString());
-
-
-        // formData.append("categories", JSON.stringify(categories));
-
-        for (let i = 0; i < categories.length; i++) {
-            formData.append("categories", JSON.stringify(categories[i]));
-            // formData.append("id[" + i + "]", categories[i].id);
-            // formData.append("name[" + i + "]", categories[i].name);
-        }
-        //
-        // console.log(categories);
-        // categories.forEach( item => {
-        //     console.log(item);
-        //     formData.append("categories", JSON.stringify(item));
-        // })
-
-
         formData.append("file", $("#imageCre")[0].files[0]);
+        // formData.append("categories", JSON.stringify(categories).toString());
+        formData.append("categories", JSON.stringify(categories));
+
+        // console.log(Array.from(formData));
+
+
 
         // let movie = new Movie();
         // movie.title = $('#titleCre').val();
@@ -319,12 +309,13 @@
             data: formData
         })
             .done((data) => {
-                // console.log(data);
+                console.log(data);
+                let categoriesList = JSON.parse(data.categories)
                 let str = App.drawRowMovie(data.id, data.title,data.fileUrl, data.premiereDate, data.showDuration, data.director, data.actor, data.language, data.description);
                 $('#tbMovies tbody').append(str);
                 $('#tdCategory_' + data.id).html('')
 
-                $.each(data.categories, (i, category) => {
+                $.each(categoriesList, (i, category) => {
                     let str = `<span class="badge badge-warning">${category.name}</span>`;
                     $('#tdCategory_' + data.id).append(str);
                 })

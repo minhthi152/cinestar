@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class CategoryDTO {
 
-    private int id;
+    private Long id;
     private String name;
 
     public Category toCategory() {

@@ -25,12 +25,13 @@ public class CategoryServiceImpl implements ICategoryService{
 
     @Override
     public Optional<Category> findById(Long id) {
-        return Optional.empty();
+
+        return categoryRepository.findById(id);
     }
 
     @Override
     public Category getById(Long id) {
-        return null;
+        return categoryRepository.findById(id).get();
     }
 
     @Override

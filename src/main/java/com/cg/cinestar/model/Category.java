@@ -20,24 +20,20 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private String code;
-
+    private Long id;
     private String name;
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return id == category.id && Objects.equals(code, category.code) && Objects.equals(name, category.name);
+        return id == category.id && Objects.equals(name, category.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, name);
+        return Objects.hash(id, name);
     }
 
     @Override
